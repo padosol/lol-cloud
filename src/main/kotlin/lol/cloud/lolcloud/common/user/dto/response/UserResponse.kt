@@ -1,4 +1,8 @@
 package lol.cloud.lolcloud.common.user.dto.response
 
-class UserResponse {
-}
+import java.util.UUID
+
+data class UserResponse(
+    val uuid: UUID,
+    val email: String,
+)

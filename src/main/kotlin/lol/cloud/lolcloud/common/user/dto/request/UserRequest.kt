@@ -1,4 +1,6 @@
 package lol.cloud.lolcloud.common.user.dto.request
 
-class UserRequest {
-}
+data class UserRequest(
+    val email: String,
+    val password: String,
+)

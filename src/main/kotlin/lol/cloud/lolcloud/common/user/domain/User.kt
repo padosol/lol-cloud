@@ -1,14 +1,12 @@
 package lol.cloud.lolcloud.common.user.domain
 
-import java.util.UUID
+import java.util.*
+import javax.management.monitor.StringMonitor
 
-data class User (
+class User(
     val id: UUID,
     val email: String,
     val password: String,
-    val role: Role
-)
-
-enum class Role {
-    USER, ADMIN
+) {
 }
+

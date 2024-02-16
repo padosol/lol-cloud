@@ -1,5 +1,7 @@
 package lol.cloud.lolcloud.common.config
 
+import lol.cloud.lolcloud.common.jwt.handler.JwtAccessDeniedHandler
+import lol.cloud.lolcloud.common.jwt.handler.JwtAuthenticationEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -13,7 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
+    val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
+) {
 
 
     @Bean
@@ -26,7 +31,9 @@ class SecurityConfig {
 
         http {
             csrf { disable() }
-            formLogin { disable() }
+            formLogin { disable() }0.
+
+
             sessionManagement { SessionCreationPolicy.STATELESS }
 
 

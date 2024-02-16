@@ -22,10 +22,12 @@ class TokenService(
         additionalClaims: Map<String, Any> = emptyMap()
     ): String {
         return Jwts.builder()
-                .addClaims(additionalClaims)
-                .setSubject(userDetails.username)
-                .setIssuedAt(Date(System.currentTimeMillis()))
-                .setExpiration(expirationDate)
+                .claims()
+                .subject(userDetails.username)
+                .issuedAt(Date(System.currentTimeMillis()))
+                .expiration(expirationDate)
+                .add(additionalClaims)
+                .and()
                 .signWith(secretKey)
                 .compact()
     }
@@ -48,10 +50,14 @@ class TokenService(
     }
 
     private fun getAllClaims(token: String): Claims {
-        return Jwts.parserBuilder()
-            .setSigningKey(secretKey)
+
+        val parser = Jwts.parser()
+            .verifyWith(secretKey)
             .build()
-            .parseClaimsJws(token)
-            .body
+
+        return parser
+            .parseEncryptedClaims(token)
+            .payload
+
     }
 }
