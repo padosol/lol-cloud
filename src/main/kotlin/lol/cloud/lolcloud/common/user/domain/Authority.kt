@@ -10,5 +10,4 @@ class Authority(
     @Id
     @Column(length = 50)
     private val authorityName: String
-) {
-}
+)

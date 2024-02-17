@@ -1,12 +1,22 @@
 package lol.cloud.lolcloud.common.user.domain
 
-import java.util.*
-import javax.management.monitor.StringMonitor
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
+import java.time.LocalDateTime
 
+@Entity
 class User(
-    val id: UUID,
-    val email: String,
-    val password: String,
+
+    @Id
+    private val email: String,
+    private val password: String,
+
+    private val userName: String,
+    private val createData: LocalDateTime,
+
+    @OneToMany
+    private var authorities: List<Authority> = emptyList()
 ) {
 }
 
