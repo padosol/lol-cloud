@@ -1,10 +1,14 @@
 package lol.cloud.lolcloud.common.user.service
 
-import lol.cloud.lolcloud.common.user.domain.User
 import lol.cloud.lolcloud.common.user.repository.UserRepository
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
+
+typealias ApplicationUser = lol.cloud.lolcloud.common.user.domain.User
 
 @Service
 class CustomUserDetailService(
@@ -12,7 +16,16 @@ class CustomUserDetailService(
 ) : UserDetailsService{
     override fun loadUserByUsername(username: String): UserDetails {
 
+        return userRepository.findOneWithAuthoritiesByEmail(username)
+            ?.mapToUserDetails()
+            ?: throw UsernameNotFoundException("유저 정보가 없습니다.")
 
-        TODO("Not yet impleented")
     }
+
+    fun ApplicationUser.mapToUserDetails(): UserDetails =
+        User.builder()
+            .username(this.email)
+            .password(this.password)
+            .authorities(this.authorities.map { SimpleGrantedAuthority(it.authority.authorityName) }.toList())
+            .build()
 }

@@ -1,22 +1,34 @@
 package lol.cloud.lolcloud.common.user.domain
 
 import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
 import java.time.LocalDateTime
 
 @Entity
+@Table(name = "users")
 class User(
 
     @Id
-    private val email: String,
-    private val password: String,
+    val email: String,
+    val password: String,
 
-    private val userName: String,
-    private val createData: LocalDateTime,
+    var username: String?,
+    var createData: LocalDateTime?,
 
-    @OneToMany
-    private var authorities: List<Authority> = emptyList()
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    val authorities: MutableList<UserAuthority> = mutableListOf(),
+
 ) {
+    fun updateName(username: String) {
+        this.username = username
+    }
+
+    fun addAuthority(userAuthority: UserAuthority) {
+        this.authorities.add(userAuthority)
+    }
+
 }
 

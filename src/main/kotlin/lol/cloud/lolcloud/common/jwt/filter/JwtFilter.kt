@@ -11,8 +11,8 @@ import org.springframework.web.filter.GenericFilterBean
 class JwtFilter(
     private val tokenProvider: TokenProvider,
 ) : GenericFilterBean() {
-    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
-        TODO("Not yet implemented")
+    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain) {
+        chain.doFilter(request, response);
     }
 
 }
