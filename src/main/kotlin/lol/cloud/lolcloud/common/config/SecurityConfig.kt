@@ -43,7 +43,7 @@ class SecurityConfig(
 
             .authorizeHttpRequests{
                 it
-                    .requestMatchers("/api/signup").permitAll()
+                    .requestMatchers("/api/signup", "/api/authenticate").permitAll()
             }
 
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)

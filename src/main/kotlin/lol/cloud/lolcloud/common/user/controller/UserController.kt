@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany
 import jakarta.validation.Valid
 import lol.cloud.lolcloud.common.user.domain.Authority
 import lol.cloud.lolcloud.common.user.domain.User
+import lol.cloud.lolcloud.common.user.dto.request.UserCreateRequest
 import lol.cloud.lolcloud.common.user.dto.request.UserRequest
 import lol.cloud.lolcloud.common.user.dto.response.UserResponse
 import lol.cloud.lolcloud.common.user.service.UserService
@@ -27,15 +28,15 @@ class UserController(
 
     @PostMapping("/signup")
     fun signup(
-        @RequestBody @Valid userRequest: UserRequest,
+        @RequestBody @Valid userCreateRequest: UserCreateRequest,
     ): ResponseEntity<UserResponse> {
 
-        val userResponse = userService.signup(user = userRequest.toEntity())
+        val userResponse = userService.signup(user = userCreateRequest.toEntity())
 
         return ResponseEntity(userResponse, HttpStatus.OK)
     }
 
-    private fun UserRequest.toEntity(): User {
+    private fun UserCreateRequest.toEntity(): User {
         return User(
             email = this.email,
             password = this.password,
