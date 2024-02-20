@@ -81,7 +81,7 @@ class TokenProvider(
     fun validateToken(token: String?): Boolean {
         try {
 
-            Jwts.parser().verifyWith(key).build().parse(token)
+            Jwts.parser().verifyWith(key).build().parseSignedClaims(token)
 
             return true
         } catch (e: SecurityException) {

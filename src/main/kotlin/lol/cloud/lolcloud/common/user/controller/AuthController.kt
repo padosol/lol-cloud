@@ -40,7 +40,7 @@ class AuthController(
         val httpHeaders = HttpHeaders()
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer $jwt")
 
-        return ResponseEntity<JwtResponse>(JwtResponse(jwt), httpHeaders, HttpStatus.OK)
+        return ResponseEntity<JwtResponse>(JwtResponse(jwt, loginRequest.email), httpHeaders, HttpStatus.OK)
     }
 
 }

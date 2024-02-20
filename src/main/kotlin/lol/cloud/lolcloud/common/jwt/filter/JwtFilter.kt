@@ -16,7 +16,7 @@ class JwtFilter(
 ) : GenericFilterBean() {
 
     companion object {
-        const val AUTHORIZATION_HEADER = "Authorization"
+        const val AUTHORIZATION_HEADER = "authorization"
     }
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain) {
 
@@ -31,7 +31,7 @@ class JwtFilter(
 
             println("토큰 저장")
         } else {
-            println("토큰 정보 없음")
+            println("토큰 정보 없음 - url: " + request.requestURI)
         }
 
         chain.doFilter(request, response);

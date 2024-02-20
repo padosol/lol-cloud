@@ -34,7 +34,8 @@ class SecurityConfig(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
         http
-            .csrf{it.disable()}
+            .csrf { it.disable() }
+            .cors {}
             .exceptionHandling{
                 it.accessDeniedHandler(jwtAccessDeniedHandler)
                 it.authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -44,6 +45,7 @@ class SecurityConfig(
             .authorizeHttpRequests{
                 it
                     .requestMatchers("/api/signup", "/api/authenticate").permitAll()
+                    .anyRequest().hasAnyRole("USER", "ADMIN")
             }
 
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
