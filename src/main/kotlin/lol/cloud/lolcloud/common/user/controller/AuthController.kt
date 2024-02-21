@@ -25,6 +25,9 @@ class AuthController(
 ) {
 
 
+    /**
+     * 로그인 로직
+     */
     @PostMapping("/authenticate")
     fun authorize(
         @RequestBody @Valid loginRequest: LoginRequest,

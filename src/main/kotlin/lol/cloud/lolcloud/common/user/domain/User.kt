@@ -5,6 +5,7 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import lol.cloud.lolcloud.common.bucket.domain.entity.Bucket
 import java.time.LocalDateTime
 
 @Entity
@@ -28,6 +29,10 @@ class User(
 
     fun addAuthority(userAuthority: UserAuthority) {
         this.authorities.add(userAuthority)
+    }
+
+    fun createBucket(bucket: Bucket) {
+        bucket.user = this
     }
 
 }

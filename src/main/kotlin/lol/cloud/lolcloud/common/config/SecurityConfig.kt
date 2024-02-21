@@ -1,5 +1,6 @@
 package lol.cloud.lolcloud.common.config
 
+import lol.cloud.lolcloud.common.jwt.TokenProvider
 import lol.cloud.lolcloud.common.jwt.filter.JwtFilter
 import lol.cloud.lolcloud.common.jwt.handler.JwtAccessDeniedHandler
 import lol.cloud.lolcloud.common.jwt.handler.JwtAuthenticationEntryPoint
@@ -21,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig(
     private val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
     private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
-    private val jwtFilter: JwtFilter,
+    private val tokenProvider: TokenProvider,
 ) {
 
 
@@ -45,10 +46,11 @@ class SecurityConfig(
             .authorizeHttpRequests{
                 it
                     .requestMatchers("/api/signup", "/api/authenticate").permitAll()
-                    .anyRequest().hasAnyRole("USER", "ADMIN")
+                    .requestMatchers("/api/buckets").hasAnyAuthority("USER", "ADMIN")
+                    .anyRequest().authenticated()
             }
 
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()
     }

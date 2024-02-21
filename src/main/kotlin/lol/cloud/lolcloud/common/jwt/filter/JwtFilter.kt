@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.GenericFilterBean
 
-@Component
 class JwtFilter(
-    val tokenProvider: TokenProvider,
+    private val tokenProvider: TokenProvider,
 ) : GenericFilterBean() {
 
     companion object {
@@ -29,7 +28,7 @@ class JwtFilter(
 
             SecurityContextHolder.getContext().authentication = authentication
 
-            println("토큰 저장")
+            println("토큰 저장 - url: " + request.requestURI)
         } else {
             println("토큰 정보 없음 - url: " + request.requestURI)
         }

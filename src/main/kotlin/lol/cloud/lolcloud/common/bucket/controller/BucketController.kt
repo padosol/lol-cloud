@@ -4,7 +4,10 @@ import jakarta.validation.Valid
 import lol.cloud.lolcloud.common.bucket.dto.request.BucketCreate
 import lol.cloud.lolcloud.common.bucket.dto.request.BucketModify
 import lol.cloud.lolcloud.common.bucket.dto.request.BucketRemove
+import lol.cloud.lolcloud.common.bucket.dto.response.BucketResponse
 import lol.cloud.lolcloud.common.bucket.service.BucketService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -25,10 +28,11 @@ class BucketController(
     @PostMapping()
     fun createBucket(
         @RequestBody @Valid bucketCreate: BucketCreate,
-    ) {
+    ): ResponseEntity<BucketResponse> {
 
+        val bucketResponse: BucketResponse = bucketService.createBucket(bucketCreate.toEntity())
 
-
+        return ResponseEntity(bucketResponse, HttpStatus.CREATED)
     }
 
     /**

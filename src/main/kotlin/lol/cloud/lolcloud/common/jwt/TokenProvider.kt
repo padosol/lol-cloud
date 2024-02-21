@@ -8,8 +8,6 @@ import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import io.jsonwebtoken.security.SecurityException
 import lombok.extern.slf4j.Slf4j
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -17,7 +15,6 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Component
-import java.security.Key
 import java.util.*
 import javax.crypto.SecretKey
 
@@ -39,13 +36,16 @@ class TokenProvider(
         private const val AUTHORITIES_KEY = "auth"
     }
 
-    // 토큰 생성
+    /**
+     * 토큰 생성
+     * 유저이름, 만료시간, 권한 정보를 담은 토큰을 생성함
+     */
     fun createToken(authentication: Authentication): String {
 
         // 권한 정보
         val authorities = authentication.authorities
             .map { it.authority }
-            .joinToString { "," }
+            .joinToString(",")
 
 
         val now: Long = Date().time
@@ -95,6 +95,7 @@ class TokenProvider(
         } catch (e: IllegalArgumentException) {
             println("JWT 토큰이 잘못되었습니다.")
         }
+
         return false
     }
 }
