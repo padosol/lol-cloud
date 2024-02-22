@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface BucketRepository : JpaRepository<Bucket, Long>{
+interface BucketRepository : JpaRepository<Bucket, String>{
 
+    fun findBucketByBucketName(bucketName: String): Bucket?
 
 }

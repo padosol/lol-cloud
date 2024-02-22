@@ -23,10 +23,13 @@ class BucketService(
         val user: User = userRepository.findUserByEmail(email)
             ?: throw UsernameNotFoundException("없는 유저 입니다.")
 
+        val findBucket = bucketRepository.findBucketByBucketName(bucket.bucketName)
+
+        if(findBucket !=  null) throw RuntimeException("이미 존재하는 버킷 입니다.")
+
         user.createBucket(bucket)
 
         return bucketRepository.save(bucket).toDto()
-
     }
 
 }
