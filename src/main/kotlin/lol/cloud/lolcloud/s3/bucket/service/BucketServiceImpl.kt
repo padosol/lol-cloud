@@ -2,6 +2,7 @@ package lol.cloud.lolcloud.s3.bucket.service
 
 import jakarta.transaction.Transactional
 import lol.cloud.lolcloud.s3.bucket.domain.bucket.Bucket
+import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.BucketObject
 import lol.cloud.lolcloud.s3.bucket.dto.bucket.response.BucketResponse
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectRequest
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
@@ -56,9 +57,9 @@ class BucketServiceImpl(
         val bucket = bucketRepository.findBucketByBucketName(bucketName)
             ?: throw RuntimeException("존재하지 않는 버킷 이름입니다.")
 
-        val bucketObjects = bucketObjectRepository.findAllByBucket(bucket)
+        val bucketObjects: List<BucketObject> = bucketObjectRepository.findAllByBucket(bucket)
 
-        TODO("Not yet implemented")
+        return bucketObjects.map { it.toDto() }.toList()
     }
 
 }

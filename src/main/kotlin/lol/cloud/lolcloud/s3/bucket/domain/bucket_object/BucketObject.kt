@@ -8,12 +8,14 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import lol.cloud.lolcloud.s3.bucket.domain.bucket.Bucket
+import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
 import java.time.LocalDateTime
 
 @Entity
 class BucketObject(
     val objectName: String,
     val objectType: String,
+    val prefix: String,
 
     val objectSize: Long,
 
@@ -28,4 +30,16 @@ class BucketObject(
     @Column(name = "bucket_object_id")
     val id: Long? = null,
 ) {
+
+    fun toDto(): BucketObjectResponse {
+        return BucketObjectResponse(
+            prefix = prefix,
+            objectName = objectName,
+            objectType = objectType,
+            id = id!!,
+            modifyDate = modifyDate,
+            objectSize = objectSize
+        )
+    }
+
 }

@@ -37,11 +37,12 @@ class BucketController(
     @GetMapping("/{bucketName}")
     fun getBucket(
         @PathVariable bucketName: String,
-        @ModelAttribute bucketObjectSearch: BucketObjectRequest,
-    ) {
+        @ModelAttribute(binding = false) bucketObjectSearch: BucketObjectRequest,
+    ) : ResponseEntity<List<BucketObjectResponse>>{
 
         val result: List<BucketObjectResponse> = bucketService.getBucket(bucketName, bucketObjectSearch)
 
+        return ResponseEntity(result, HttpStatus.OK)
     }
 
     /**

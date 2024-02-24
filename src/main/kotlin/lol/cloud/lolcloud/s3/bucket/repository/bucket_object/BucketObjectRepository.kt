@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository
 interface BucketObjectRepository : JpaRepository<BucketObject, Long>{
 
     fun findAllByBucket(bucket: Bucket): List<BucketObject>
+
+    fun findBucketObjectByBucketAndObjectName(bucket: Bucket, objectName: String): BucketObject?
 }

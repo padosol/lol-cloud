@@ -5,7 +5,8 @@ import java.time.LocalDateTime
 data class BucketObjectResponse(
     val prefix: String,
     val objectName: String,
+    val objectType: String,
     val id: Long,
     val modifyDate: LocalDateTime,
-    val objectSize: String
+    val objectSize: Long,
 )
