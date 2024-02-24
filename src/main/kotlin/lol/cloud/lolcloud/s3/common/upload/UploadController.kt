@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestController
 class UploadController {
 
 
+    @GetMapping
+    fun uploadObject() {
 
+    }
 
 
 }
