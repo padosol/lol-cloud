@@ -1,12 +1,6 @@
 package lol.cloud.lolcloud.s3.bucket.domain.bucket_object
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import lol.cloud.lolcloud.s3.bucket.domain.bucket.Bucket
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
 import java.time.LocalDateTime
@@ -14,13 +8,15 @@ import java.time.LocalDateTime
 @Entity
 class BucketObject(
     val objectName: String,
-    val objectType: String,
-    val prefix: String,
 
-    val objectSize: Long,
+    @Enumerated(EnumType.STRING)
+    val objectType: ObjectType,
+    var prefix: String,
+
+    var objectSize: Long? = null,
 
     val createDate: LocalDateTime,
-    val modifyDate: LocalDateTime,
+    val modifyDate: LocalDateTime? = null,
 
     @ManyToOne
     @JoinColumn(name = "bucket_id")
@@ -35,7 +31,7 @@ class BucketObject(
         return BucketObjectResponse(
             prefix = prefix,
             objectName = objectName,
-            objectType = objectType,
+            objectType = objectType.name,
             id = id!!,
             modifyDate = modifyDate,
             objectSize = objectSize

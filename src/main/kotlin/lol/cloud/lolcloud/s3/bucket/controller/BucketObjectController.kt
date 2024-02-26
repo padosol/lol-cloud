@@ -1,6 +1,7 @@
 package lol.cloud.lolcloud.s3.bucket.controller
 
 import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.BucketObject
+import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectCreate
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
 import lol.cloud.lolcloud.s3.bucket.service.BucketObjectService
 import org.springframework.http.HttpStatus
@@ -32,14 +33,19 @@ class BucketObjectController(
         return ResponseEntity(result, HttpStatus.OK)
     }
 
+
+    /**
+     * 객체 생성 컨트롤러
+     */
     @PostMapping("/{bucketName}/objects")
     fun createObject(
         @PathVariable bucketName: String,
-        @RequestBody bucketObject: BucketObject,
-    ){
+        @RequestBody bucketObjectCreate: BucketObjectCreate,
+    ) : ResponseEntity<BucketObjectResponse>{
 
+        val result: BucketObjectResponse = bucketObjectService.createObject(bucketName, bucketObjectCreate);
 
-
+        return ResponseEntity(result, HttpStatus.CREATED)
     }
 
 }

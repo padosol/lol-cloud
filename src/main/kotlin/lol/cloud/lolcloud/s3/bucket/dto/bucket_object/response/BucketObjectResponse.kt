@@ -7,6 +7,6 @@ data class BucketObjectResponse(
     val objectName: String,
     val objectType: String,
     val id: Long,
-    val modifyDate: LocalDateTime,
-    val objectSize: Long,
+    val modifyDate: LocalDateTime? = null,
+    val objectSize: Long? = null,
 )
