@@ -3,12 +3,22 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.spring") version "1.9.22"
-
-    id("org.jetbrains.kotlin.plugin.jpa") version "1.6.21"   // 기본생성자
 
 
+    kotlin("jvm") version "1.8.21"
+    kotlin("plugin.spring") version "1.8.21"
+    kotlin("plugin.jpa") version "1.8.21"
+    kotlin("plugin.allopen") version "1.8.21"
+    kotlin("kapt") version "1.8.21"
+    idea
+
+}
+
+allOpen {
+    // Spring Boot 3.0.0
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
 }
 
 group = "lol.cloud"
@@ -44,6 +54,13 @@ dependencies {
     // jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.2.2")
 
+    // QueryDSL 설정
+    implementation ("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    kapt ("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    kapt ("jakarta.annotation:jakarta.annotation-api")
+    kapt ("jakarta.persistence:jakarta.persistence-api")
+
+
     // validator
     implementation("org.hibernate.validator:hibernate-validator:6.2.0.Final")
 
@@ -70,4 +87,12 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+idea {
+    module {
+        val kaptMain = file("build/generated/source/kapt/main")
+        sourceDirs.add(kaptMain)
+        generatedSourceDirs.add(kaptMain)
+    }
 }
