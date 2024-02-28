@@ -10,9 +10,9 @@ interface BucketObjectRepository : JpaRepository<BucketObject, Long>, BucketObje
 
     fun findAllByBucket(bucket: Bucket): List<BucketObject>
 
-    fun findBucketObjectByBucketAndObjectName(bucket: Bucket, objectName: String): BucketObject?
+    fun findBucketObjectByBucketAndObjectNameAndPrefix(bucket: Bucket, objectName: String, prefix: String): BucketObject?
 
 
-
+    fun findAllByBucketAndPrefix(bucket: Bucket, prefix: String): List<BucketObject>
 
 }

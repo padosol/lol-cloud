@@ -1,5 +1,5 @@
 jwt:
-  key: ${JWT_KEY}
+  key: dsfcewtcewtcertvewrtvwetcetrgdsbsrtvytrvyrt
   access-token-expiration: 360000
   refresh-token-expiration: 8640000
 

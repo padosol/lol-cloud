@@ -16,7 +16,7 @@ class User(
     val email: String,
     val password: String,
 
-    var username: String?,
+    var username: String,
     var createData: LocalDateTime?,
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

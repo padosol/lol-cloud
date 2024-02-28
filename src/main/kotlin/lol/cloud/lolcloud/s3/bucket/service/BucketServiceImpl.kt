@@ -57,7 +57,7 @@ class BucketServiceImpl(
         val bucket = bucketRepository.findBucketByBucketName(bucketName)
             ?: throw RuntimeException("존재하지 않는 버킷 이름입니다.")
 
-        val bucketObjects: List<BucketObject> = bucketObjectRepository.findAllByBucket(bucket)
+        val bucketObjects: List<BucketObject> = bucketObjectRepository.findAllByBucketAndPrefix(bucket, bucketObjectRequest.prefix?:"")
 
         return bucketObjects.map { it.toDto() }.toList()
     }

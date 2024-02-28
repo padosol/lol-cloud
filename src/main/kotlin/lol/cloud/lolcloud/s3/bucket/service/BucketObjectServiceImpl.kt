@@ -5,6 +5,7 @@ import lol.cloud.lolcloud.s3.bucket.domain.bucket.Bucket
 import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.BucketObject
 import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.ObjectType
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectCreate
+import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectRequest
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
 import lol.cloud.lolcloud.s3.bucket.repository.bucket.BucketRepository
 import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectRepository
@@ -18,12 +19,12 @@ class BucketObjectServiceImpl(
     private val bucketObjectRepository: BucketObjectRepository,
     private val bucketRepository: BucketRepository,
 ) : BucketObjectService{
-    override fun getObject(bucketName: String, objectName: String): BucketObjectResponse {
+    override fun getObject(bucketObjectRequest: BucketObjectRequest): BucketObjectResponse {
 
-        val bucket = bucketRepository.findBucketByBucketName(bucketName)
+        val bucket = bucketRepository.findBucketByBucketName(bucketObjectRequest.bucketName?:"'")
             ?: throw S3ErrorException(HttpStatus.BAD_REQUEST, "존재하지 않는 버킷 이름입니다.")
 
-        val bucketObject = bucketObjectRepository.findBucketObjectByBucketAndObjectName(bucket, objectName)
+        val bucketObject = bucketObjectRepository.findBucketObjectByBucketAndObjectNameAndPrefix(bucket, bucketObjectRequest.objectName?:"", bucketObjectRequest.prefix?:"")
             ?: throw S3ErrorException(HttpStatus.NOT_FOUND, "존재하지 않는 객체 이름입니다.")
 
         return bucketObject.toDto()
@@ -34,10 +35,13 @@ class BucketObjectServiceImpl(
         val bucket = bucketRepository.findBucketByBucketName(bucketName)
             ?: throw S3ErrorException(HttpStatus.NOT_FOUND, "존재하지 않는 버킷 이름 입니다.")
 
-        val objectName = when(bucketObjectCreate.objectType) {
-                                ObjectType.FOLDER -> "${bucketObjectCreate.objectName}/"
-                                else -> bucketObjectCreate.objectName
-                            }
+
+        val objectName = if(bucketObjectCreate.objectType == ObjectType.FOLDER) {
+            bucketObjectCreate.objectName + "/"
+        } else {
+            bucketObjectCreate.objectName
+        }
+
 
         val bucketObject = BucketObject(
             objectName = objectName,
