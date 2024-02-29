@@ -2,10 +2,8 @@ package lol.cloud.lolcloud.s3.folder.service
 
 interface FolderService {
 
-    fun createFolder()
+    fun createFolder(bucketName: String, folderName: String, prefix: String)
 
-    fun deleteFolder()
-
-
+    fun deleteFolder(bucketName: String, folderName: String, prefix: String)
 
 }

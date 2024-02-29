@@ -1,7 +1,5 @@
 package lol.cloud.lolcloud.s3.bucket.controller
 
-import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.BucketObject
-import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectCreate
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectRequest
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
 import lol.cloud.lolcloud.s3.bucket.service.BucketObjectService
@@ -9,9 +7,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 

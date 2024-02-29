@@ -10,6 +10,7 @@ import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectRespo
 import lol.cloud.lolcloud.s3.bucket.repository.bucket.BucketRepository
 import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectRepository
 import lol.cloud.lolcloud.s3.common.error.S3ErrorException
+import lol.cloud.lolcloud.s3.folder.service.FolderService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -18,6 +19,7 @@ import java.time.LocalDateTime
 class BucketObjectServiceImpl(
     private val bucketObjectRepository: BucketObjectRepository,
     private val bucketRepository: BucketRepository,
+    private val folderService: FolderService,
 ) : BucketObjectService{
     override fun getObject(bucketObjectRequest: BucketObjectRequest): BucketObjectResponse {
 
@@ -42,6 +44,12 @@ class BucketObjectServiceImpl(
             bucketObjectCreate.objectName
         }
 
+        when(bucketObjectCreate.objectType) {
+            ObjectType.FOLDER -> folderService.createFolder(bucketName, bucketObjectCreate.objectName, bucketObjectCreate.prefix)
+            else -> {
+                println("폴더가 아닙니다.")
+            }
+        }
 
         val bucketObject = BucketObject(
             objectName = objectName,

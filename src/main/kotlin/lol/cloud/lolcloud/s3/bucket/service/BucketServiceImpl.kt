@@ -8,6 +8,7 @@ import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectReques
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
 import lol.cloud.lolcloud.s3.bucket.repository.bucket.BucketRepository
 import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectRepository
+import lol.cloud.lolcloud.s3.folder.service.FolderService
 import lol.cloud.lolcloud.s3.user.domain.User
 import lol.cloud.lolcloud.s3.user.repository.UserRepository
 import org.springframework.security.core.context.SecurityContextHolder
@@ -19,6 +20,7 @@ class BucketServiceImpl(
     private val userRepository: UserRepository,
     private val bucketRepository: BucketRepository,
     private val bucketObjectRepository: BucketObjectRepository,
+    private val folderService: FolderService
 ) : BucketService{
 
     @Transactional
@@ -28,11 +30,13 @@ class BucketServiceImpl(
         val user: User = userRepository.findUserByEmail(email)
             ?: throw UsernameNotFoundException("없는 유저 입니다.")
 
-        val findBucket = bucketRepository.findBucketByBucketName(bucket.bucketName)
+        val findBucket: Bucket? = bucketRepository.findBucketByBucketName(bucket.bucketName)
 
         if(findBucket !=  null) throw RuntimeException("이미 존재하는 버킷 입니다.")
 
+
         user.createBucket(bucket)
+        folderService.createFolder(bucket.bucketName, "", "")
 
         return bucketRepository.save(bucket).toDto()
     }
