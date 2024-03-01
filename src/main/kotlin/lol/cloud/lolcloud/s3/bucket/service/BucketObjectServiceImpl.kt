@@ -57,9 +57,7 @@ class BucketObjectServiceImpl(
             prefix = bucketObjectCreate.prefix,
             objectSize = bucketObjectCreate.objectSize,
             createDate = LocalDateTime.now(),
-            null,
-            bucket,
-            null
+            bucket = bucket,
         )
 
         return bucketObjectRepository.save(bucketObject).toDto()

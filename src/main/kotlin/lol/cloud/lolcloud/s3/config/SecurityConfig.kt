@@ -43,7 +43,7 @@ class SecurityConfig(
 
             .authorizeHttpRequests{
                 it
-                    .requestMatchers("/api/signup", "/api/authenticate").permitAll()
+                    .requestMatchers("/api/signup", "/api/authenticate", "/api/upload", "/static/*/**").permitAll()
                     .requestMatchers("/api/buckets").hasAnyAuthority("USER", "ADMIN")
                     .anyRequest().authenticated()
             }

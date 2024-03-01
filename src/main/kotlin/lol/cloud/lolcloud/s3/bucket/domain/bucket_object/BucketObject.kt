@@ -12,11 +12,12 @@ class BucketObject(
     @Enumerated(EnumType.STRING)
     val objectType: ObjectType,
     var prefix: String,
-
     var objectSize: Long? = null,
-
-    val createDate: LocalDateTime,
+    val createDate: LocalDateTime? = null,
     val modifyDate: LocalDateTime? = null,
+    val objectExt: String? = null,
+    val key: String? = null,
+    val objectUrl: String? = null,
 
     @ManyToOne
     @JoinColumn(name = "bucket_id")
@@ -33,8 +34,11 @@ class BucketObject(
             objectName = objectName,
             objectType = objectType.name,
             id = id!!,
+            createDate = createDate,
             modifyDate = modifyDate,
-            objectSize = objectSize
+            objectSize = objectSize,
+            key = key,
+            objectExt = objectExt,
         )
     }
 
