@@ -63,5 +63,11 @@ class BucketObjectServiceImpl(
         return bucketObjectRepository.save(bucketObject).toDto()
     }
 
+    override fun getObjectAll(bucketObjectRequest: BucketObjectRequest): List<BucketObjectResponse> {
+
+
+        TODO("Not yet implemented")
+    }
+
 
 }

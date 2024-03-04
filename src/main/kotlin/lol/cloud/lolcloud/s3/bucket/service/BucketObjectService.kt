@@ -8,4 +8,6 @@ interface BucketObjectService {
     fun getObject(bucketObjectRequest: BucketObjectRequest): BucketObjectResponse
 
     fun createObject(bucketName: String, bucketObjectCreate: BucketObjectCreate): BucketObjectResponse
+
+    fun getObjectAll(bucketObjectRequest: BucketObjectRequest): List<BucketObjectResponse>
 }

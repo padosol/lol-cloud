@@ -29,6 +29,16 @@ class BucketObjectController(
         return ResponseEntity(result, HttpStatus.OK)
     }
 
+    @GetMapping("/list")
+    fun getObjectAll(
+        @ModelAttribute bucketObjectRequest: BucketObjectRequest,
+    ) : ResponseEntity<List<BucketObjectResponse>>? {
+
+        val result: List<BucketObjectResponse> = bucketObjectService.getObjectAll(bucketObjectRequest)
+
+        return null;
+    }
+
 
 
 
