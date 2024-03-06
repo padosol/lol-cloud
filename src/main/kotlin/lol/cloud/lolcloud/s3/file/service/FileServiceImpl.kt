@@ -44,6 +44,14 @@ class FileServiceImpl(
             bucket = bucket
         )
 
+        bucketObject.createObjectUrl()
+        bucketObject.addDetailObjectName()
+
+        bucketObjectRepository.findBucketObjectByBucketAndPrefixAndObjectType(bucket, bucketObjectRequest.prefix, ObjectType.FOLDER)
+            ?. let {
+                bucketObject.addParent(it)
+            }
+
         val saveBucketObject = bucketObjectRepository.save(bucketObject)
 
         // bucketObject 넣기 파일이니깐 키 값도 있으면 좋을듯

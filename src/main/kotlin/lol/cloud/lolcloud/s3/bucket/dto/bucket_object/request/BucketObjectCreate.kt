@@ -7,5 +7,6 @@ data class BucketObjectCreate(
     val objectType: ObjectType,
     val prefix: String = "",
     val objectSize: Long = 0L,
+    val parentId: Long? = null,
 ) {
 }

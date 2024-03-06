@@ -14,7 +14,7 @@ class QueryDSLConfig(
 ) {
 
     @Bean
-    fun jpaQueryFatotry(): JPAQueryFactory {
+    fun jpaQueryFactory(): JPAQueryFactory {
         return JPAQueryFactory(entityManager)
     }
 }

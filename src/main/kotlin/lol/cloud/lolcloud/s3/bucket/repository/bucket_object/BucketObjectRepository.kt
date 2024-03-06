@@ -2,6 +2,7 @@ package lol.cloud.lolcloud.s3.bucket.repository.bucket_object
 
 import lol.cloud.lolcloud.s3.bucket.domain.bucket.Bucket
 import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.BucketObject
+import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.ObjectType
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -12,7 +13,8 @@ interface BucketObjectRepository : JpaRepository<BucketObject, Long>, BucketObje
 
     fun findBucketObjectByBucketAndObjectNameAndPrefix(bucket: Bucket, objectName: String, prefix: String): BucketObject?
 
-
     fun findAllByBucketAndPrefix(bucket: Bucket, prefix: String): List<BucketObject>
+
+    fun findBucketObjectByBucketAndPrefixAndObjectType(bucket: Bucket, prefix: String, objectType: ObjectType): BucketObject?
 
 }

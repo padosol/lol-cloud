@@ -7,7 +7,8 @@ import java.time.LocalDateTime
 
 @Entity
 class BucketObject(
-    val objectName: String,
+
+    var objectName: String,
 
     @Enumerated(EnumType.STRING)
     val objectType: ObjectType,
@@ -17,7 +18,14 @@ class BucketObject(
     val modifyDate: LocalDateTime? = null,
     val objectExt: String? = null,
     val key: String? = null,
-    val objectUrl: String? = null,
+    var objectUrl: String? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_bucket_object_id", referencedColumnName = "bucket_object_id")
+    var parent: BucketObject? = null,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    val children: List<BucketObject> = emptyList(),
 
     @ManyToOne
     @JoinColumn(name = "bucket_id")
@@ -40,6 +48,20 @@ class BucketObject(
             key = key,
             objectExt = objectExt,
         )
+    }
+
+    fun addParent(parent: BucketObject) {
+        this.parent = parent
+    }
+
+    fun createObjectUrl() {
+        objectUrl = "localhost:8080${bucket.bucketName}/${prefix}${objectName}"
+    }
+
+    fun addDetailObjectName() {
+       if(objectType == ObjectType.FOLDER) {
+           objectName = "$objectName/"
+        }
     }
 
 }

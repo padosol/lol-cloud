@@ -14,6 +14,7 @@ import lol.cloud.lolcloud.s3.folder.service.FolderService
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.util.*
 
 @Service
 class BucketObjectServiceImpl(
@@ -37,28 +38,26 @@ class BucketObjectServiceImpl(
         val bucket = bucketRepository.findBucketByBucketName(bucketName)
             ?: throw S3ErrorException(HttpStatus.NOT_FOUND, "존재하지 않는 버킷 이름 입니다.")
 
-
-        val objectName = if(bucketObjectCreate.objectType == ObjectType.FOLDER) {
-            bucketObjectCreate.objectName + "/"
-        } else {
-            bucketObjectCreate.objectName
-        }
-
-        when(bucketObjectCreate.objectType) {
-            ObjectType.FOLDER -> folderService.createFolder(bucketName, bucketObjectCreate.objectName, bucketObjectCreate.prefix)
-            else -> {
-                println("폴더가 아닙니다.")
-            }
-        }
-
         val bucketObject = BucketObject(
-            objectName = objectName,
+            objectName = bucketObjectCreate.objectName,
             objectType = bucketObjectCreate.objectType,
             prefix = bucketObjectCreate.prefix,
             objectSize = bucketObjectCreate.objectSize,
             createDate = LocalDateTime.now(),
             bucket = bucket,
         )
+
+        bucketObject.createObjectUrl()
+        bucketObject.addDetailObjectName()
+
+        if(bucketObject.objectType == ObjectType.FOLDER) {
+            folderService.createFolder(bucketName, bucketObjectCreate.objectName, bucketObjectCreate.prefix)
+        }
+
+        bucketObjectCreate.parentId?.let {
+            val parentBucketObject = bucketObjectRepository.findById(it).orElseThrow { throw S3ErrorException(HttpStatus.BAD_REQUEST, "존재하지 않는 객체입니다.") }
+            bucketObject.addParent(parentBucketObject)
+        }
 
         return bucketObjectRepository.save(bucketObject).toDto()
     }

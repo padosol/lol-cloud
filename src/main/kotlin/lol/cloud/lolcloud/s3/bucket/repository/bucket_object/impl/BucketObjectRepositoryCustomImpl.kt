@@ -19,8 +19,13 @@ class BucketObjectRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findAllBucketObjectByBucketAndPrefix(bucket: Bucket) {
-        TODO("Not yet implemented")
+    override fun findAllBucketObjectTypeFolderByBucketAndObjectNameAndPrefixForRecursive(
+        bucket: Bucket,
+        objectName: String,
+        prefix: String
+    ) {
+
+
     }
 
 }

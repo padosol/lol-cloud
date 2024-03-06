@@ -29,6 +29,9 @@ class BucketObjectController(
         return ResponseEntity(result, HttpStatus.OK)
     }
 
+    /**
+     *  폴더 객체 하위 리스트 가져오기
+     */
     @GetMapping("/list")
     fun getObjectAll(
         @ModelAttribute bucketObjectRequest: BucketObjectRequest,
@@ -36,10 +39,7 @@ class BucketObjectController(
 
         val result: List<BucketObjectResponse> = bucketObjectService.getObjectAll(bucketObjectRequest)
 
-        return null;
+        return ResponseEntity(result, HttpStatus.OK);
     }
-
-
-
 
 }

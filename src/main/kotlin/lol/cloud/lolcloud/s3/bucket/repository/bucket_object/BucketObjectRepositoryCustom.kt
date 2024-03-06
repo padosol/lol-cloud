@@ -7,5 +7,5 @@ interface BucketObjectRepositoryCustom {
 
     fun findByBucketTest(): List<BucketObject>
 
-    fun findAllBucketObjectByBucketAndPrefix(bucket: Bucket)
+    fun findAllBucketObjectTypeFolderByBucketAndObjectNameAndPrefixForRecursive(bucket: Bucket, objectName: String, prefix: String)
 }
