@@ -68,5 +68,14 @@ class BucketObjectServiceImpl(
         TODO("Not yet implemented")
     }
 
+    override fun removeObjectAll(bucketObjectRequestList: List<BucketObjectRequest>): Int {
+
+        val ids = bucketObjectRequestList.map { it.id }
+
+        bucketObjectRepository.deleteAllById(ids)
+
+        return ids.size
+    }
+
 
 }

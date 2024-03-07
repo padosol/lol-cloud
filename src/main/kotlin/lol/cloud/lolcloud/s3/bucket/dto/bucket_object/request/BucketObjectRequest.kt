@@ -7,6 +7,6 @@ data class BucketObjectRequest(
     val bucketName: String = "",
     val objectName: String? = null,
     val uploadDate: LocalDateTime? = null,
-    val parentId: Long? = null
-) {
-}
+    val parentId: Long? = null,
+    val id: Long? = null,
+)
