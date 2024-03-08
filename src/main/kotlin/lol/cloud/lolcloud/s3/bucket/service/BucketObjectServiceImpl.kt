@@ -64,8 +64,11 @@ class BucketObjectServiceImpl(
 
     override fun getObjectAll(bucketObjectRequest: BucketObjectRequest): List<BucketObjectResponse> {
 
+        val bucketObject = bucketObjectRequest.id?.let {
+            bucketObjectRepository.findById(it)
+        }
 
-        TODO("Not yet implemented")
+        return emptyList();
     }
 
     override fun removeObjectAll(bucketObjectRequestList: List<BucketObjectRequest>): Int {
