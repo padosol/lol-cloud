@@ -17,7 +17,7 @@ class BucketObject(
     val createDate: LocalDateTime? = null,
     val modifyDate: LocalDateTime? = null,
     val objectExt: String? = null,
-    val key: String? = null,
+    var key: String? = null,
     var objectUrl: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,6 +56,10 @@ class BucketObject(
 
     fun createObjectUrl() {
         objectUrl = "localhost:8080${bucket.bucketName}/${prefix}${objectName}"
+    }
+
+    fun createBucketObjectKey() {
+        key = prefix + objectName
     }
 
     fun addDetailObjectName() {

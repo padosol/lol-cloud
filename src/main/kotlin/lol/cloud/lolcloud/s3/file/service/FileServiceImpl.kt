@@ -46,8 +46,9 @@ class FileServiceImpl(
 
         bucketObject.createObjectUrl()
         bucketObject.addDetailObjectName()
+        bucketObject.createBucketObjectKey()
 
-        bucketObjectRepository.findBucketObjectByBucketAndPrefixAndObjectType(bucket, bucketObjectRequest.prefix, ObjectType.FOLDER)
+        bucketObjectRepository.findBucketObjectByBucketAndKeyAndObjectType(bucket, bucketObjectRequest.prefix, ObjectType.FOLDER)
             ?. let {
                 bucketObject.addParent(it)
             }

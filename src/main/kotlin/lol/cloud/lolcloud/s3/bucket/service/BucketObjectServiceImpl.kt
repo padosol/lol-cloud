@@ -49,15 +49,16 @@ class BucketObjectServiceImpl(
 
         bucketObject.createObjectUrl()
         bucketObject.addDetailObjectName()
+        bucketObject.createBucketObjectKey()
 
         if(bucketObject.objectType == ObjectType.FOLDER) {
             folderService.createFolder(bucketName, bucketObjectCreate.objectName, bucketObjectCreate.prefix)
         }
 
-        bucketObjectCreate.parentId?.let {
-            val parentBucketObject = bucketObjectRepository.findById(it).orElseThrow { throw S3ErrorException(HttpStatus.BAD_REQUEST, "존재하지 않는 객체입니다.") }
-            bucketObject.addParent(parentBucketObject)
-        }
+        bucketObjectRepository.findBucketObjectByBucketAndKeyAndObjectType(bucket, bucketObjectCreate.prefix, ObjectType.FOLDER)
+            ?. let {
+                bucketObject.addParent(it)
+            }
 
         return bucketObjectRepository.save(bucketObject).toDto()
     }

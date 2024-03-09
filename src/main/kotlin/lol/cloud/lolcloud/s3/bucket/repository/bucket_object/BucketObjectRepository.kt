@@ -17,4 +17,6 @@ interface BucketObjectRepository : JpaRepository<BucketObject, Long>, BucketObje
 
     fun findBucketObjectByBucketAndPrefixAndObjectType(bucket: Bucket, prefix: String, objectType: ObjectType): BucketObject?
 
+    fun findBucketObjectByBucketAndKeyAndObjectType(bucket: Bucket, key: String, objectType: ObjectType): BucketObject?
+
 }
