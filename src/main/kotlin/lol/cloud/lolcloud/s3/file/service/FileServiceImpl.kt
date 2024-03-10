@@ -8,6 +8,7 @@ import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectReques
 import lol.cloud.lolcloud.s3.bucket.repository.bucket.BucketRepository
 import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectRepository
 import lol.cloud.lolcloud.s3.common.error.S3ErrorException
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -19,6 +20,8 @@ class FileServiceImpl(
     private val bucketObjectRepository: BucketObjectRepository,
     private val bucketRepository: BucketRepository,
 ) : FileService {
+
+    private val log = LoggerFactory.getLogger(this.javaClass)!!
     override fun upload(bucketObjectRequest: BucketObjectRequest, multipartFile: MultipartFile): String {
 
         val fileName = multipartFile.originalFilename
@@ -68,5 +71,23 @@ class FileServiceImpl(
 
     override fun getFileByte(bucketName: String, fileName: String, prefix: String): ByteArray {
         TODO("Not yet implemented")
+    }
+
+    override fun removeFile(bucketObjectRequest: BucketObjectRequest): Boolean {
+
+        val filePath = "${bucketObjectRequest.bucketName}/${bucketObjectRequest.prefix}${bucketObjectRequest.objectName}"
+        val file = File("D://$filePath")
+
+        if(file.exists()) {
+            if(file.delete()){
+                log.debug("파일이 삭제되었습니다. PATH $filePath")
+
+                return true
+            }
+        }
+
+        log.debug("존재하지 않는 파일입니다. PATH: $filePath")
+
+        return false
     }
 }

@@ -47,6 +47,7 @@ class BucketObject(
             objectSize = objectSize,
             key = key,
             objectExt = objectExt,
+            bucketName = bucket.bucketName
         )
     }
 
@@ -67,5 +68,30 @@ class BucketObject(
            objectName = "$objectName/"
         }
     }
+
+    fun getAllChildren(): List<BucketObject> {
+
+        val allChildren = mutableListOf<BucketObject>()
+        allChildren.add(this)
+
+        if(children.isNotEmpty()){
+            getChildren(this, allChildren)
+            allChildren.sortByDescending { it.id }
+        }
+
+        return allChildren
+    }
+
+    fun getChildren(bucketObject: BucketObject, childrens: MutableList<BucketObject>) {
+        bucketObject.children.forEach {
+            childrens.add(it)
+
+            if(it.children.isNotEmpty()){
+                getChildren(it, childrens)
+            }
+
+        }
+    }
+
 
 }

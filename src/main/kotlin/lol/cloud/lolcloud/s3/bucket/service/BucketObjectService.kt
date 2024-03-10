@@ -2,6 +2,7 @@ package lol.cloud.lolcloud.s3.bucket.service
 
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectCreate
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectRequest
+import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectDeleteResponse
 import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectResponse
 
 interface BucketObjectService {
@@ -11,7 +12,7 @@ interface BucketObjectService {
 
     fun getObjectAll(bucketObjectRequest: BucketObjectRequest): List<BucketObjectResponse>
 
-    fun removeObjectAll(bucketObjectRequestList: List<BucketObjectRequest>): Int
+    fun removeObjectAll(bucketObjectRequestList: List<BucketObjectRequest>): BucketObjectDeleteResponse
 
 
 }

@@ -9,4 +9,6 @@ interface FileService {
 
     fun getFileByte(bucketName: String, fileName: String, prefix: String): ByteArray
 
+    fun removeFile(bucketObjectRequest: BucketObjectRequest): Boolean
+
 }

@@ -11,6 +11,7 @@ import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectReposit
 import lol.cloud.lolcloud.s3.folder.service.FolderService
 import lol.cloud.lolcloud.s3.user.domain.User
 import lol.cloud.lolcloud.s3.user.repository.UserRepository
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
@@ -22,6 +23,8 @@ class BucketServiceImpl(
     private val bucketObjectRepository: BucketObjectRepository,
     private val folderService: FolderService
 ) : BucketService{
+
+    private val log = LoggerFactory.getLogger(this.javaClass)!!
 
     @Transactional
     override fun createBucket(bucket: Bucket): BucketResponse {

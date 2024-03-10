@@ -12,4 +12,5 @@ data class BucketObjectResponse(
     val objectSize: Long? = null,
     val key: String? = null,
     val objectExt: String? = null,
+    val bucketName: String? = null,
 )
