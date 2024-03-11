@@ -23,7 +23,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
 
-      #CI 구축2
+      #CI 구축3
       - name: execute remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
