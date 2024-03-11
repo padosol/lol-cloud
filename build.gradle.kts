@@ -93,3 +93,7 @@ idea {
         generatedSourceDirs.add(kaptMain)
     }
 }
+
+val jar: Jar by tasks
+
+jar.enabled = false
