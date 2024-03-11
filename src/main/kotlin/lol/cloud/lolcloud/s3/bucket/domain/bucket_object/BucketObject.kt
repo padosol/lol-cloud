@@ -56,7 +56,7 @@ class BucketObject(
     }
 
     fun createObjectUrl() {
-        objectUrl = "localhost:8080${bucket.bucketName}/${prefix}${objectName}"
+        objectUrl = "localhost:8080/${bucket.bucketName}/${prefix}${objectName}"
     }
 
     fun createBucketObjectKey() {
