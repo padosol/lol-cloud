@@ -25,11 +25,12 @@ jobs:
 
       #CI 구축
       - name: execute remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER_NAME }}
           key: ${{ secrets.PRIMARY_KEY }}
+          port: ${{ secrets.PORT }}
           script: |
             whoami
             ls -al
