@@ -26,4 +26,4 @@ jobs:
       - name: Move war file to tomcat webapp
         run: | 
          cd build/libs
-         mv lol-cloud-0.0.1-SNAPSHOT.jar cd ~/Desktop/tomcat/apache-tomcat-10.1.13/webapps build.jar
+         mv lol-cloud-0.0.1-SNAPSHOT.jar ~/Desktop/tomcat/apache-tomcat-10.1.13/webapps build.jar
