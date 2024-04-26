@@ -5,6 +5,8 @@ import lol.cloud.lolcloud.s3.jwt.TokenProvider
 import lol.cloud.lolcloud.s3.jwt.dto.response.JwtResponse
 import lol.cloud.lolcloud.s3.jwt.filter.JwtFilter
 import lol.cloud.lolcloud.s3.user.dto.request.LoginRequest
+import lombok.extern.slf4j.Slf4j
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,7 +25,7 @@ class AuthController(
     private val authenticationManagerBuilder: AuthenticationManagerBuilder,
 ) {
 
-
+    private val log = LoggerFactory.getLogger(this.javaClass)!!
     /**
      * 로그인 로직
      */
@@ -32,15 +34,23 @@ class AuthController(
         @RequestBody @Valid loginRequest: LoginRequest,
     ) : ResponseEntity<JwtResponse> {
 
+        log.info("[Authenticate 시작]")
         val token = UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
+
+        log.info("token: {}", token)
 
         val authentication = authenticationManagerBuilder.getObject().authenticate(token)
         SecurityContextHolder.getContext().authentication = authentication
 
+        log.info("authentication: {}", authentication)
+
         val jwt: String = tokenProvider.createToken(authentication)
+        log.info("jwt: {}", jwt)
 
         val httpHeaders = HttpHeaders()
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer $jwt")
+
+        log.info("[Authenticate 시작]")
 
         return ResponseEntity<JwtResponse>(JwtResponse(jwt, loginRequest.email), httpHeaders, HttpStatus.OK)
     }
