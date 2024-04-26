@@ -15,6 +15,7 @@ class CorsConfig {
 
         config.allowCredentials = true
         config.allowedOrigins = listOf(
+            "http://mmrtr.store",
             "http://mmrtr.store:8081",
             "http://mmrtr.store:5174",
             "http://localhost:8081",
