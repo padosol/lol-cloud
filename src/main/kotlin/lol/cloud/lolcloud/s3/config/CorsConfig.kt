@@ -14,8 +14,8 @@ class CorsConfig {
         val config = CorsConfiguration()
 
         config.allowCredentials = true
-        config.allowedOrigins = listOf("*")
-        config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
+        config.allowedOrigins = listOf("http://mmrtr.store:8081")
+        config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
         config.allowedHeaders = listOf("*")
 
         val source = UrlBasedCorsConfigurationSource()
