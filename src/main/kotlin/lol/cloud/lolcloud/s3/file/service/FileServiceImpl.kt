@@ -62,7 +62,8 @@ class FileServiceImpl(
 
         val filePath = "${bucketObjectRequest.bucketName}/${bucketObjectRequest.prefix}"
 
-        val file = File("D://$filePath$fileName")
+        val file = File("/home/sang/Desktop/cloud/$filePath$fileName")
+//        val file = File("D://$filePath$fileName")
 
         multipartFile.transferTo(file)
 
@@ -76,7 +77,8 @@ class FileServiceImpl(
     override fun removeFile(bucketObjectRequest: BucketObjectRequest): Boolean {
 
         val filePath = "${bucketObjectRequest.bucketName}/${bucketObjectRequest.prefix}${bucketObjectRequest.objectName}"
-        val file = File("D://$filePath")
+        val file = File("/home/sang/Desktop/cloud/$filePath")
+//        val file = File("D://$filePath")
 
         if(file.exists()) {
             if(file.delete()){
