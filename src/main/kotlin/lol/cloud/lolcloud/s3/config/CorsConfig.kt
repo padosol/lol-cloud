@@ -14,7 +14,7 @@ class CorsConfig {
         val config = CorsConfiguration()
 
         config.allowCredentials = true
-        config.allowedOrigins = listOf("http://localhost:5174", "http://mmrtr.store:8081")
+        config.allowedOrigins = listOf("http://localhost:5174", "http://mmrtr.store:5174")
         config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
         config.allowedHeaders = listOf("*")
 
