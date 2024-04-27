@@ -20,7 +20,8 @@ class CorsConfig {
             "http://mmrtr.store:5174",
             "http://localhost:8081",
             "http://localhost:5174",
-            "http://cloud-frontend:5174"
+            "http://cloud-frontend:5174",
+            "http://cloud-backend:8081"
         )
         config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
         config.allowedHeaders = listOf("*")
