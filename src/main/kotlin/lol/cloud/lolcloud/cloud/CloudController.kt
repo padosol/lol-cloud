@@ -22,7 +22,8 @@ class CloudController {
 
         val filePath = httpServletRequest.requestURI.split(bucketName)[1]
 
-        val file = File("D://$bucketName$filePath")
+//        val file = File("D://$bucketName$filePath")
+        val file = File("/home/$bucketName$filePath")
 
         if(file.exists() && file.isFile) {
 
