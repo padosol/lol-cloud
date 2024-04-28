@@ -4,6 +4,8 @@ import lol.cloud.lolcloud.s3.jwt.TokenProvider
 import lol.cloud.lolcloud.s3.jwt.filter.JwtFilter
 import lol.cloud.lolcloud.s3.jwt.handler.JwtAccessDeniedHandler
 import lol.cloud.lolcloud.s3.jwt.handler.JwtAuthenticationEntryPoint
+import lombok.AllArgsConstructor
+import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -16,13 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 class SecurityConfig(
     private val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
     private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
     private val tokenProvider: TokenProvider,
 ) {
-
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
