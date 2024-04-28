@@ -12,7 +12,7 @@ class FolderServiceImpl : FolderService {
 
         //        val file = File("/home/sang/Desktop/cloud/$filePath")
 //        val path = "D:/$bucketName/$prefix$folderName"
-        val path = "~/Desktop/cloud/$bucketName/$prefix$folderName"
+        val path = "~/cloud/$bucketName/$prefix$folderName"
 
         val file = File(path)
 
