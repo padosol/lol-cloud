@@ -7,7 +7,9 @@ import java.io.File
 class FolderServiceImpl : FolderService {
     override fun createFolder(bucketName: String, folderName: String, prefix: String) {
 
-        val path = "D:/$bucketName/$prefix$folderName"
+        //        val file = File("/home/sang/Desktop/cloud/$filePath")
+//        val path = "D:/$bucketName/$prefix$folderName"
+        val path = "/home/sang/Desktop/cloud/$bucketName/$prefix$folderName"
 
         val file = File(path)
 
