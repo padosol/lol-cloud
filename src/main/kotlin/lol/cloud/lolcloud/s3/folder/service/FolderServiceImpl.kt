@@ -10,9 +10,8 @@ class FolderServiceImpl : FolderService {
     private val log = LoggerFactory.getLogger(this.javaClass)
     override fun createFolder(bucketName: String, folderName: String, prefix: String) {
 
-        //        val file = File("/home/sang/Desktop/cloud/$filePath")
-//        val path = "D:/$bucketName/$prefix$folderName"
-        val path = "/home/$bucketName/$prefix$folderName"
+        val path = "D://$bucketName/$prefix$folderName"
+//        val path = "/home/$bucketName/$prefix$folderName"
 
         val file = File(path)
 
@@ -24,7 +23,6 @@ class FolderServiceImpl : FolderService {
         }
 
         //test
-
 
     }
 

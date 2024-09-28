@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
-typealias ApplicationUser = lol.cloud.lolcloud.s3.user.domain.User
+typealias ApplicationUser = lol.cloud.lolcloud.s3.user.domain.model.User
 
 @Service
 class CustomUserDetailService(

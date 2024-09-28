@@ -1,4 +1,4 @@
-package lol.cloud.lolcloud.s3.user.domain
+package lol.cloud.lolcloud.s3.user.domain.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

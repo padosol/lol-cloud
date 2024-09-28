@@ -9,7 +9,7 @@ import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectRespo
 import lol.cloud.lolcloud.s3.bucket.repository.bucket.BucketRepository
 import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectRepository
 import lol.cloud.lolcloud.s3.folder.service.FolderService
-import lol.cloud.lolcloud.s3.user.domain.User
+import lol.cloud.lolcloud.s3.user.domain.model.User
 import lol.cloud.lolcloud.s3.user.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder

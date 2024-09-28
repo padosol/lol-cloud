@@ -1,8 +1,8 @@
 package lol.cloud.lolcloud.cloud
 
 import jakarta.servlet.http.HttpServletRequest
-import jdk.jfr.ContentType
 import lol.cloud.lolcloud.s3.common.error.S3ErrorException
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -22,8 +22,7 @@ class CloudController {
 
         val filePath = httpServletRequest.requestURI.split(bucketName)[1]
 
-//        val file = File("D://$bucketName$filePath")
-        val file = File("/home/$bucketName$filePath")
+        val file = File("D://$bucketName$filePath")
 
         if(file.exists() && file.isFile) {
 

@@ -35,13 +35,12 @@ class AuthController(
     ) : ResponseEntity<JwtResponse> {
 
         log.info("[Authenticate 시작]")
-        val token = UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
 
+        val token = UsernamePasswordAuthenticationToken(loginRequest.email, loginRequest.password)
         log.info("token: {}", token)
 
         val authentication = authenticationManagerBuilder.getObject().authenticate(token)
         SecurityContextHolder.getContext().authentication = authentication
-
         log.info("authentication: {}", authentication)
 
         val jwt: String = tokenProvider.createToken(authentication)
@@ -49,7 +48,6 @@ class AuthController(
 
         val httpHeaders = HttpHeaders()
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer $jwt")
-
         log.info("[Authenticate 시작]")
 
         return ResponseEntity<JwtResponse>(JwtResponse(jwt, loginRequest.email), httpHeaders, HttpStatus.OK)

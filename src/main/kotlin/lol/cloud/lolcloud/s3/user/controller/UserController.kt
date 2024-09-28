@@ -1,7 +1,7 @@
 package lol.cloud.lolcloud.s3.user.controller
 
 import jakarta.validation.Valid
-import lol.cloud.lolcloud.s3.user.domain.User
+import lol.cloud.lolcloud.s3.user.domain.model.User
 import lol.cloud.lolcloud.s3.user.dto.request.UserCreateRequest
 import lol.cloud.lolcloud.s3.user.dto.response.UserResponse
 import lol.cloud.lolcloud.s3.user.service.UserService

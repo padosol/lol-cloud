@@ -1,4 +1,4 @@
-package lol.cloud.lolcloud.s3.user.domain
+package lol.cloud.lolcloud.s3.user.domain.model
 
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -22,7 +22,7 @@ class User(
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     val authorities: MutableList<UserAuthority> = mutableListOf(),
 
-) {
+    ) {
 
     @OneToMany(mappedBy = "user")
     val bucket: List<Bucket> = emptyList()

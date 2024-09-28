@@ -2,7 +2,7 @@ package lol.cloud.lolcloud.s3.bucket.domain.bucket
 
 import jakarta.persistence.*
 import lol.cloud.lolcloud.s3.bucket.dto.bucket.response.BucketResponse
-import lol.cloud.lolcloud.s3.user.domain.User
+import lol.cloud.lolcloud.s3.user.domain.model.User
 import java.time.LocalDateTime
 
 @Entity
@@ -21,7 +21,7 @@ class Bucket(
 
     var publicAccess: Boolean = true,
 
-) {
+    ) {
 
     fun toDto(): BucketResponse {
         return BucketResponse(
