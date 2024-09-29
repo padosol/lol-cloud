@@ -3,6 +3,7 @@ package lol.cloud.lolcloud.s3.bucket.domain.bucket
 import jakarta.persistence.*
 import lol.cloud.lolcloud.s3.bucket.dto.bucket.response.BucketResponse
 import lol.cloud.lolcloud.s3.user.domain.model.User
+import lol.cloud.lolcloud.s3.user.infrastructure.adapters.output.persistence.entity.UserEntity
 import java.time.LocalDateTime
 
 @Entity
@@ -17,7 +18,7 @@ class Bucket(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
-    var user: User? = null,
+    var user: UserEntity? = null,
 
     var publicAccess: Boolean = true,
 

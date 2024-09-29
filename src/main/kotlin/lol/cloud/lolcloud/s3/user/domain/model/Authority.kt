@@ -1,14 +1,7 @@
 package lol.cloud.lolcloud.s3.user.domain.model
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-
-@Entity
 class Authority(
+    val authName: String,
+) {
 
-    @Id
-    @Column(length = 50)
-    val authorityName: String? = null
-
-)
+}

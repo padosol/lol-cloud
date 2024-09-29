@@ -1,11 +1,10 @@
-package lol.cloud.lolcloud.s3.user.controller
+package lol.cloud.lolcloud.s3.user.infrastructure.adapters.input.web
 
 import jakarta.validation.Valid
 import lol.cloud.lolcloud.s3.jwt.TokenProvider
 import lol.cloud.lolcloud.s3.jwt.dto.response.JwtResponse
 import lol.cloud.lolcloud.s3.jwt.filter.JwtFilter
-import lol.cloud.lolcloud.s3.user.dto.request.LoginRequest
-import lombok.extern.slf4j.Slf4j
+import lol.cloud.lolcloud.s3.user.infrastructure.adapters.input.web.dto.request.LoginRequest
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus

@@ -1,4 +1,4 @@
-package lol.cloud.lolcloud.s3.user.domain.model
+package lol.cloud.lolcloud.s3.user.infrastructure.adapters.output.persistence.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -6,9 +6,10 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import lol.cloud.lolcloud.s3.user.domain.model.User
 
 @Entity
-class UserAuthority(
+class UserAuthorityEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,9 +17,9 @@ class UserAuthority(
 
     @ManyToOne
     @JoinColumn(name = "email")
-    val user: User,
+    val user: UserEntity,
 
     @ManyToOne
     @JoinColumn(name = "authorityName")
-    val authority: Authority,
+    val authorityEntity: AuthorityEntity,
 )

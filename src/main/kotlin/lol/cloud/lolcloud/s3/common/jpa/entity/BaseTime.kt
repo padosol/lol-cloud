@@ -1,4 +1,4 @@
-package lol.cloud.lolcloud.s3.jpa.entity
+package lol.cloud.lolcloud.s3.common.jpa.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners

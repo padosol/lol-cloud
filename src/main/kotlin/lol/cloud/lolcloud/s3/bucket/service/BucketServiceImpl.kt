@@ -9,8 +9,9 @@ import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.response.BucketObjectRespo
 import lol.cloud.lolcloud.s3.bucket.repository.bucket.BucketRepository
 import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectRepository
 import lol.cloud.lolcloud.s3.folder.service.FolderService
+import lol.cloud.lolcloud.s3.user.application.ports.output.UserOutputPort
 import lol.cloud.lolcloud.s3.user.domain.model.User
-import lol.cloud.lolcloud.s3.user.repository.UserRepository
+import lol.cloud.lolcloud.s3.user.infrastructure.adapters.output.persistence.repository.UserEntityRepository
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -18,10 +19,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class BucketServiceImpl(
-    private val userRepository: UserRepository,
+    private val userEntityRepository: UserEntityRepository,
     private val bucketRepository: BucketRepository,
     private val bucketObjectRepository: BucketObjectRepository,
-    private val folderService: FolderService
+    private val folderService: FolderService,
+    private val userOutputPort: UserOutputPort
 ) : BucketService{
 
     private val log = LoggerFactory.getLogger(this.javaClass)!!
@@ -30,13 +32,12 @@ class BucketServiceImpl(
     override fun createBucket(bucket: Bucket): BucketResponse {
         val email = SecurityContextHolder.getContext().authentication.name
 
-        val user: User = userRepository.findUserByEmail(email)
+        val user: User = userOutputPort.findUserByEmail(email)
             ?: throw UsernameNotFoundException("없는 유저 입니다.")
 
         val findBucket: Bucket? = bucketRepository.findBucketByBucketName(bucket.bucketName)
 
         if(findBucket !=  null) throw RuntimeException("이미 존재하는 버킷 입니다.")
-
 
         user.createBucket(bucket)
         folderService.createFolder(bucket.bucketName, "", "")
@@ -49,10 +50,10 @@ class BucketServiceImpl(
 
         val email = SecurityContextHolder.getContext().authentication.name
 
-        val user = userRepository.findUserByEmail(email)
+        val user = userOutputPort.findUserByEmail(email)
             ?: throw UsernameNotFoundException("없는 유저 입니다.")
 
-        val buckets = user.bucket
+        val buckets = user.bucketList
 
         return buckets.map { it.toDto() }
     }
