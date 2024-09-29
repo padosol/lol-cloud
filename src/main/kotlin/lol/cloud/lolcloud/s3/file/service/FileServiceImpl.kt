@@ -1,19 +1,17 @@
 package lol.cloud.lolcloud.s3.file.service
 
-import jakarta.persistence.*
-import lol.cloud.lolcloud.s3.bucket.domain.bucket.Bucket
-import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.BucketObject
-import lol.cloud.lolcloud.s3.bucket.domain.bucket_object.ObjectType
-import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectRequest
-import lol.cloud.lolcloud.s3.bucket.repository.bucket.BucketRepository
-import lol.cloud.lolcloud.s3.bucket.repository.bucket_object.BucketObjectRepository
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.BucketObjectEntity
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.ObjectType
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.request.BucketObjectRequest
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.BucketEntity
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.repository.bucket.BucketRepository
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.repository.bucket_object.BucketObjectRepository
 import lol.cloud.lolcloud.s3.common.error.S3ErrorException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
-import java.time.LocalDateTime
 
 @Service
 class FileServiceImpl(
@@ -36,7 +34,7 @@ class FileServiceImpl(
 
         // bucketObject 생성
 
-        val bucketObject = BucketObject(
+        val bucketObjectEntity = BucketObjectEntity(
             objectName = fileName,
             objectType = ObjectType.FILE,
             prefix = bucketObjectRequest.prefix,
@@ -47,16 +45,16 @@ class FileServiceImpl(
             bucket = bucket
         )
 
-        bucketObject.createObjectUrl()
-        bucketObject.addDetailObjectName()
-        bucketObject.createBucketObjectKey()
+        bucketObjectEntity.createObjectUrl()
+        bucketObjectEntity.addDetailObjectName()
+        bucketObjectEntity.createBucketObjectKey()
 
         bucketObjectRepository.findBucketObjectByBucketAndKeyAndObjectType(bucket, bucketObjectRequest.prefix, ObjectType.FOLDER)
             ?. let {
-                bucketObject.addParent(it)
+                bucketObjectEntity.addParent(it)
             }
 
-        val saveBucketObject = bucketObjectRepository.save(bucketObject)
+        val saveBucketObject = bucketObjectRepository.save(bucketObjectEntity)
 
         // bucketObject 넣기 파일이니깐 키 값도 있으면 좋을듯
 

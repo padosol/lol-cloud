@@ -1,17 +1,24 @@
 package lol.cloud.lolcloud.s3.folder.service
 
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
-class FolderServiceImpl : FolderService {
+class FolderServiceImpl(
+
+) : FolderService {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
+
+    @Value("\${folder.rootPath}")
+    lateinit var rootPath: String
+
+
     override fun createFolder(bucketName: String, folderName: String, prefix: String) {
 
-        val path = "D://$bucketName/$prefix$folderName"
-//        val path = "/home/$bucketName/$prefix$folderName"
+        val path = "${rootPath}$bucketName/$prefix$folderName"
 
         val file = File(path)
 
@@ -21,8 +28,6 @@ class FolderServiceImpl : FolderService {
 
             throw IllegalArgumentException("폴더 생성에 실패 했습니다.")
         }
-
-        //test
 
     }
 

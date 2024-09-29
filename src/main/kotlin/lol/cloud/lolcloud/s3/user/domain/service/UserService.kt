@@ -23,7 +23,6 @@ typealias ApplicationUser = lol.cloud.lolcloud.s3.user.domain.model.User
 class UserService(
     private val passwordEncoder: PasswordEncoder,
     private val userOutputPort: UserOutputPort,
-    private val userEntityMapper: UserEntityMapper,
     private val userMapper: UserMapper
 ) : CreateUserUseCase, UserDetailsService {
 
@@ -35,7 +34,7 @@ class UserService(
         // 암호화
         user.passwordEncode(passwordEncoder)
 
-        val saveUser = userOutputPort.saveUser(userEntityMapper.toUserEntity(user))
+        val saveUser = userOutputPort.saveUser(UserEntityMapper.toUserEntity(user))
 
         val authority = (userOutputPort.findAuthorityByAuthName("USER")
             ?: userOutputPort.saveAuthority(AuthorityEntity("USER")))
@@ -43,7 +42,7 @@ class UserService(
         userOutputPort.saveUserAuthority(
             UserAuthorityEntity(
                 null,
-                userEntityMapper.toUserEntity(saveUser),
+                UserEntityMapper.toUserEntity(saveUser),
                 authority
             )
         )

@@ -1,6 +1,6 @@
 package lol.cloud.lolcloud.s3.file.service
 
-import lol.cloud.lolcloud.s3.bucket.dto.bucket_object.request.BucketObjectRequest
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.request.BucketObjectRequest
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 

@@ -7,6 +7,8 @@ import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import io.jsonwebtoken.security.SecurityException
+import jakarta.servlet.http.HttpServletRequest
+import lol.cloud.lolcloud.s3.jwt.filter.JwtFilter
 import lombok.extern.slf4j.Slf4j
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -15,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.stereotype.Component
+import org.springframework.util.StringUtils
 import java.util.*
 import javax.crypto.SecretKey
 
@@ -97,5 +100,12 @@ class TokenProvider(
         }
 
         return false
+    }
+
+    fun resolveToken(request: HttpServletRequest): String? {
+        val bearerToken = request.getHeader(JwtFilter.AUTHORIZATION_HEADER)
+        return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            bearerToken.substring(7)
+        } else null
     }
 }

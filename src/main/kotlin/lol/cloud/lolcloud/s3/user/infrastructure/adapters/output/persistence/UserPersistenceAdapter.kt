@@ -18,23 +18,22 @@ class UserPersistenceAdapter(
     private val userEntityRepository: UserEntityRepository,
     private val authorityRepository: AuthorityRepository,
     private val userAuthorityRepository: UserAuthorityRepository,
-    private val userEntityMapper: UserEntityMapper
 ) : UserOutputPort{
     override fun saveUser(userEntity: UserEntity): User {
 
         val saveUserEntity = userEntityRepository.save(userEntity)
 
-        return userEntityMapper.toUser(saveUserEntity)
+        return UserEntityMapper.toUser(saveUserEntity)
     }
 
     override fun findOneWithAuthoritiesByEmail(email: String): User? {
         return userEntityRepository.findByIdOrNull(email)
-            ?.let { userEntityMapper.toUser(it) }
+            ?.let { UserEntityMapper.toUser(it) }
     }
 
     override fun findUserByEmail(email: String): User? {
         return userEntityRepository.findByIdOrNull(email)
-            ?.let { userEntityMapper.toUser(it) }
+            ?.let { UserEntityMapper.toUser(it) }
     }
 
     override fun findAuthorityByAuthName(authName: String): AuthorityEntity? {

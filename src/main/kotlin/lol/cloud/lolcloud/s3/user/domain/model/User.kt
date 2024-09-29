@@ -1,6 +1,6 @@
 package lol.cloud.lolcloud.s3.user.domain.model
 
-import lol.cloud.lolcloud.s3.bucket.domain.bucket.Bucket
+import lol.cloud.lolcloud.s3.bucket.domain.Bucket
 import org.springframework.security.crypto.password.PasswordEncoder
 import java.time.LocalDateTime
 
@@ -15,7 +15,7 @@ class User(
     var authorityList: MutableList<Authority> = mutableListOf(),
 
     // 버킷
-    var bucketList: MutableList<Bucket> = mutableListOf()
+    var bucketEntityList: MutableList<Bucket> = mutableListOf()
 
 ) {
 
@@ -28,7 +28,7 @@ class User(
     }
 
     fun createBucket(bucket: Bucket) {
-        bucketList.add(bucket)
+        bucketEntityList.add(bucket)
     }
 
 }

@@ -19,7 +19,7 @@ class JwtFilter(
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain) {
 
         val httpServletRequest = request as HttpServletRequest
-        val token = resolveToken(httpServletRequest)
+        val token = tokenProvider.resolveToken(httpServletRequest)
 
         if(StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 
@@ -33,13 +33,6 @@ class JwtFilter(
         }
 
         chain.doFilter(request, response);
-    }
-
-    private fun resolveToken(request: HttpServletRequest): String? {
-        val bearerToken = request.getHeader(AUTHORIZATION_HEADER)
-        return if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            bearerToken.substring(7)
-        } else null
     }
 
 }
