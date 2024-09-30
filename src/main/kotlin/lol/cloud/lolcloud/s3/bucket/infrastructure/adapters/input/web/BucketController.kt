@@ -12,6 +12,7 @@ import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.response.BucketObjectResponse
 import lol.cloud.lolcloud.s3.bucket.domain.service.BucketObjectService
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.mapper.BucketMapper
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.mapper.BucketObjectMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -97,7 +98,9 @@ class BucketController(
         @RequestBody bucketObjectCreate: BucketObjectCreate,
     ) : ResponseEntity<BucketObjectResponse>{
 
-        val result: BucketObjectResponse = bucketObjectService.createObject(bucketName, bucketObjectCreate);
+        val result: BucketObjectResponse = bucketObjectService.createObject(
+            BucketObjectMapper.toBucketObject(bucketName, bucketObjectCreate)
+        )
 
         return ResponseEntity(result, HttpStatus.CREATED)
     }

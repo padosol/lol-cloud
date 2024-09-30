@@ -4,34 +4,17 @@ import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.e
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.ObjectType
 
 class BucketObject(
-
-    private val bucketName: String,
-    private var objectName: String,
-    private val objectType: ObjectType,
-    private val prefix: String = "",
-    private val objectSize: Long = 0L,
-    private val parentId: Long? = null,
-
-    private var objectUrl: String,
-    private var bucketObject: BucketObject?,
-    private var key: String
+    val bucketName: String,
+    var objectName: String,
+    val objectType: ObjectType,
+    val prefix: String = "",
+    val objectSize: Long = 0L,
+    val parentId: Long? = null,
+    var objectUrl: String,
+    var bucketObject: BucketObject?,
+    var key: String
 ) {
 
-    fun getBucketName(): String {
-        return bucketName
-    }
-
-    fun getObjectType(): ObjectType {
-        return objectType
-    }
-
-    fun getObjectName(): String {
-        return objectName
-    }
-
-    fun getPrefix(): String {
-        return prefix
-    }
     fun addParent(parent: BucketObject) {
         this.bucketObject = bucketObject
     }
@@ -73,5 +56,9 @@ class BucketObject(
             }
 
         }
+    }
+
+    fun isFolder(): Boolean {
+        return objectType == ObjectType.FOLDER
     }
 }

@@ -3,8 +3,11 @@ package lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.
 import com.querydsl.jpa.impl.JPAQueryFactory
 import lol.cloud.lolcloud.s3.bucket.application.ports.output.bucket_object.BucketObjectOutputPort
 import lol.cloud.lolcloud.s3.bucket.domain.BucketObject
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.mapper.BucketObjectMapper
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.BucketEntity
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.BucketObjectEntity
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.ObjectType
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.mapper.BucketObjectEntityMapper
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.repository.bucket_object.BucketObjectRepository
 import org.springframework.stereotype.Repository
 
@@ -31,6 +34,10 @@ class BucketObjectPersistenceAdapter(
         objectType: ObjectType
     ): BucketObject? {
         TODO("Not yet implemented")
+    }
+
+    override fun saveBucketObject(bucketObjectEntity: BucketObjectEntity): BucketObject {
+        return BucketObjectEntityMapper.toBucketObject(bucketObjectRepository.save(bucketObjectEntity))
     }
 
 

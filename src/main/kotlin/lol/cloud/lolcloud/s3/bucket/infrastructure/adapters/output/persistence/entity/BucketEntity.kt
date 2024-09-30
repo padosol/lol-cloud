@@ -5,7 +5,7 @@ import lol.cloud.lolcloud.s3.user.infrastructure.adapters.output.persistence.ent
 import java.time.LocalDateTime
 
 @Entity
-@Table(indexes = [Index(name = "idx_bucket_name", columnList = "bucket_name")])
+@Table(indexes = [Index(name = "idx_bucket_name", columnList = "bucket_name")], name = "bucket")
 class BucketEntity(
     @Id
     @Column(length = 50)

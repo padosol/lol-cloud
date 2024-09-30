@@ -13,6 +13,7 @@ import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.request.BucketObjectRequest
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.response.BucketObjectDeleteResponse
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.response.BucketObjectResponse
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.mapper.BucketObjectMapper
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.mapper.BucketEntityMapper
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.mapper.BucketObjectEntityMapper
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.repository.bucket.BucketRepository
@@ -111,53 +112,33 @@ class BucketObjectService(
 
     override fun createObject(bucketObject: BucketObject): BucketObjectResponse {
 
-        val bucket: Bucket = bucketOutputPort.findBucketByBucketName(bucketObject.getBucketName())
+        val bucket: Bucket = bucketOutputPort.findBucketByBucketName(bucketObject.bucketName)
             ?: throw S3ErrorException(HttpStatus.NOT_FOUND, "존재하지 않는 버킷 이름 입니다.")
 
         bucketObject.createObjectUrl()
         bucketObject.addDetailObjectName()
         bucketObject.createBucketObjectKey()
 
-//        val bucketObjectEntity = BucketObjectEntity(
-//            objectName = bucketObjectCreate.objectName,
-//            objectType = bucketObjectCreate.objectType,
-//            prefix = bucketObjectCreate.prefix,
-//            objectSize = bucketObjectCreate.objectSize,
-//            createDate = LocalDateTime.now(),
-//            bucket = BucketEntityMapper.toEntity(bucket),
-//        )
-//
-//        bucketObjectEntity.createObjectUrl()
-//        bucketObjectEntity.addDetailObjectName()
-//        bucketObjectEntity.createBucketObjectKey()
-
-        if(bucketObject.getObjectType() == ObjectType.FOLDER) {
+        if(bucketObject.isFolder()) {
             folderService.createFolder(
-                bucketObject.getBucketName(),
-                bucketObject.getObjectName(),
-                bucketObject.getPrefix()
+                bucketObject.bucketName,
+                bucketObject.objectName,
+                bucketObject.prefix
             )
         }
 
         bucketObjectOutputPort.findBucketObjectByBucketAndKeyAndObjectType(
             BucketEntityMapper.toEntity(bucket),
-            bucketObject.getPrefix(),
+            bucketObject.prefix,
             ObjectType.FOLDER
         )?. let {
             bucketObject.addParent(it)
         }
 
-//        bucketObjectOutputPort.saveBucketObject(bucket)
+        val saveBucketObject =
+            bucketObjectOutputPort.saveBucketObject(BucketObjectEntityMapper.toEntity(bucketObject, bucket))
 
-//        bucketObjectRepository.findBucketObjectByBucketAndKeyAndObjectType(
-//            BucketEntityMapper.toEntity(bucket),
-//            bucketObjectCreate.prefix,
-//            ObjectType.FOLDER
-//        )?. let {
-//                bucketObjectEntity.addParent(it)
-//            }
-//        bucketObjectRepository.save(bucketObjectEntity).toDto()
-        return bucketObjectRepository.save(BucketObjectEntityMapper.toEntity(bucketObject, bucket)).toDto()
+        return BucketObjectMapper.toResponse(saveBucketObject)
     }
 
 }

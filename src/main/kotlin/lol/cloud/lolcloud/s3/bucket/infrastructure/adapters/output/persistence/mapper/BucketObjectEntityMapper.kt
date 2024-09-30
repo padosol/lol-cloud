@@ -12,11 +12,10 @@ class BucketObjectEntityMapper {
 
     companion object {
         fun toEntity(bucketObject: BucketObject, bucket: Bucket): BucketObjectEntity {
-
             return BucketObjectEntity(
-                objectName = bucketObject.getObjectName(),
-                objectType = bucketObject.getObjectType(),
-                prefix = bucketObject.getPrefix(),
+                objectName = bucketObject.objectName,
+                objectType = bucketObject.objectType,
+                prefix = bucketObject.prefix,
                 objectSize = null,
                 createDate = LocalDateTime.now(),
                 modifyDate = null,
@@ -27,6 +26,20 @@ class BucketObjectEntityMapper {
                 children = mutableListOf(),
                 bucket = BucketEntityMapper.toEntity(bucket),
                 id = null,
+            )
+        }
+
+        fun toBucketObject(bucketObjectEntity: BucketObjectEntity): BucketObject {
+            return BucketObject(
+                bucketName = bucketObjectEntity.bucket.bucketName,
+                objectName = bucketObjectEntity.objectName,
+                objectType = bucketObjectEntity.objectType,
+                prefix = bucketObjectEntity.prefix,
+                objectSize = bucketObjectEntity.objectSize ?: 0L,
+                parentId = bucketObjectEntity.parent?.id,
+                objectUrl = bucketObjectEntity.objectUrl ?: "",
+                bucketObject = null,
+                key = bucketObjectEntity.key ?: ""
             )
         }
     }
