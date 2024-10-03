@@ -1,8 +1,9 @@
 package lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.mapper
 
 import lol.cloud.lolcloud.s3.bucket.domain.Bucket
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket.request.BucketCreate
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket.response.BucketResponse
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.request.BucketCreate
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.request.BucketModify
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.response.BucketResponse
 import java.time.LocalDateTime
 
 class BucketMapper {
@@ -15,14 +16,15 @@ class BucketMapper {
                 createDate = bucket.createDate,
             )
         }
-
         fun toBucket(bucketCreate: BucketCreate): Bucket {
             return Bucket(
                 bucketName = bucketCreate.bucketName,
-                createDate = LocalDateTime.now(),
-                user = null,
-                publicAccess = true,
-                bucketObjects = mutableListOf()
+            )
+        }
+
+        fun toBucket(bucketModify: BucketModify): Bucket {
+            return Bucket(
+                bucketName = bucketModify.bucketName,
             )
         }
 

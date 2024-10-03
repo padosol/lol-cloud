@@ -5,6 +5,7 @@ import jakarta.servlet.ServletRequest
 import jakarta.servlet.ServletResponse
 import jakarta.servlet.http.HttpServletRequest
 import lol.cloud.lolcloud.s3.jwt.TokenProvider
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.GenericFilterBean
@@ -12,6 +13,8 @@ import org.springframework.web.filter.GenericFilterBean
 class JwtFilter(
     private val tokenProvider: TokenProvider,
 ) : GenericFilterBean() {
+
+    private val log = LoggerFactory.getLogger(this.javaClass)!!
 
     companion object {
         const val AUTHORIZATION_HEADER = "authorization"
@@ -27,9 +30,9 @@ class JwtFilter(
 
             SecurityContextHolder.getContext().authentication = authentication
 
-            println("토큰 저장 - url: " + request.requestURI)
+            log.info("토큰 저장 - url: {}", request.requestURI)
         } else {
-            println("토큰 정보 없음 - url: " + request.requestURI)
+            log.info("토큰 정보 없음 - url: {}", request.requestURI)
         }
 
         chain.doFilter(request, response);

@@ -1,13 +1,13 @@
 package lol.cloud.lolcloud.s3.file.service
 
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.BucketObjectEntity
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.output.persistence.entity.BucketObjectEntity
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.ObjectType
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.request.BucketObjectRequest
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.entity.BucketEntity
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.repository.bucket.BucketRepository
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.repository.bucket_object.BucketObjectRepository
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.input.rest.dto.request.BucketObjectRequest
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.output.persistence.repository.BucketRepository
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.output.persistence.repository.BucketObjectRepository
 import lol.cloud.lolcloud.s3.common.error.S3ErrorException
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
@@ -20,6 +20,9 @@ class FileServiceImpl(
 ) : FileService {
 
     private val log = LoggerFactory.getLogger(this.javaClass)!!
+
+    @Value("\${folder.rootPath}")
+    lateinit var rootPath: String
     override fun upload(bucketObjectRequest: BucketObjectRequest, multipartFile: MultipartFile): String {
 
         val fileName = multipartFile.originalFilename
@@ -61,7 +64,7 @@ class FileServiceImpl(
         val filePath = "${bucketObjectRequest.bucketName}/${bucketObjectRequest.prefix}"
 
 //        val file = File("/home/$filePath$fileName")
-        val file = File("D://$filePath$fileName")
+        val file = File("${rootPath}$filePath$fileName")
 
         multipartFile.transferTo(file)
 

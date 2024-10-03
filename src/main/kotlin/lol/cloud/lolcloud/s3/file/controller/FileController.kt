@@ -1,6 +1,6 @@
 package lol.cloud.lolcloud.s3.file.controller
 
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.request.BucketObjectRequest
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.input.rest.dto.request.BucketObjectRequest
 import lol.cloud.lolcloud.s3.file.service.FileService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -20,10 +20,8 @@ class FileController(
     @PostMapping(value = ["/upload"], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun uploadFile(
         file: MultipartFile,
-
         @ModelAttribute bucketObjectRequest: BucketObjectRequest,
-
-        ) : ResponseEntity<String>{
+    ) : ResponseEntity<String>{
 
         fileService.upload(bucketObjectRequest, file)
 

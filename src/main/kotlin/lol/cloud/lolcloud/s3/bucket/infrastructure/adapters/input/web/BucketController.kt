@@ -2,17 +2,20 @@ package lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
-import lol.cloud.lolcloud.s3.bucket.domain.service.BucketService
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket.request.BucketCreate
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket.request.BucketModify
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.request.BucketObjectRequest
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket.request.BucketRemove
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket.response.BucketResponse
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.request.BucketObjectCreate
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.bucket_object.response.BucketObjectResponse
-import lol.cloud.lolcloud.s3.bucket.domain.service.BucketObjectService
+import lol.cloud.lolcloud.s3.bucket.application.ports.input.FindBucketUseCase
+import lol.cloud.lolcloud.s3.bucket.application.ports.input.ModifyBucketUserCase
+import lol.cloud.lolcloud.s3.bucket.domain.BucketService
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.request.BucketCreate
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.request.BucketModify
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.input.rest.dto.request.BucketObjectRequest
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.request.BucketRemove
+import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.dto.response.BucketResponse
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.input.rest.dto.request.BucketObjectCreate
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.input.rest.dto.response.BucketObjectResponse
+import lol.cloud.lolcloud.s3.bucket_object.domain.BucketObjectService
 import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.mapper.BucketMapper
-import lol.cloud.lolcloud.s3.bucket.infrastructure.adapters.input.web.mapper.BucketObjectMapper
+import lol.cloud.lolcloud.s3.bucket_object.infrastructure.adapters.input.rest.mapper.BucketObjectMapper
+import lol.cloud.lolcloud.s3.jwt.TokenProvider
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -29,13 +32,16 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/buckets")
 class BucketController(
     private val bucketObjectService: BucketObjectService,
-    private val bucketService: BucketService
+    private val bucketService: BucketService,
+    private val tokenProvider: TokenProvider,
+    private val modifyBucketUserCase: ModifyBucketUserCase,
+    private val findBucketUseCase: FindBucketUseCase
 ) {
 
     @GetMapping
     fun getBuckets() : ResponseEntity<List<BucketResponse>>{
 
-        val result: List<BucketResponse> = bucketService.getBuckets()
+        val result: List<BucketResponse> = findBucketUseCase.getBuckets()
 
         return ResponseEntity(result, HttpStatus.OK)
     }
@@ -47,9 +53,17 @@ class BucketController(
     fun getBucket(
         @PathVariable bucketName: String,
         @ModelAttribute(binding = false) bucketObjectSearch: BucketObjectRequest,
-    ) : ResponseEntity<List<BucketObjectResponse>>{
+        request: HttpServletRequest
+    ) : ResponseEntity<BucketResponse>{
 
-        val result: List<BucketObjectResponse> = bucketService.getBucket(bucketName, bucketObjectSearch)
+        val resolveToken = tokenProvider.resolveToken(request)!!
+        val authentication = tokenProvider.getAuthentication(resolveToken)
+
+        val result: BucketResponse =
+            bucketService.getBucket(
+                bucketName,
+                authentication.name
+            )
 
         return ResponseEntity(result, HttpStatus.OK)
     }
@@ -75,7 +89,6 @@ class BucketController(
     fun modifyBucket(
         @RequestBody @Valid bucketModify: BucketModify,
     ) {
-
     }
 
     /**

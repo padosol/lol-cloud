@@ -21,6 +21,8 @@ import org.springframework.util.StringUtils
 import java.util.*
 import javax.crypto.SecretKey
 
+import lol.cloud.lolcloud.s3.user.domain.model.User as UserInfo
+
 @Component
 @Slf4j
 class TokenProvider(
@@ -49,7 +51,6 @@ class TokenProvider(
         val authorities = authentication.authorities
             .map { it.authority }
             .joinToString(",")
-
 
         val now: Long = Date().time
         val expirationDate: Date = Date(now + tokenValidityInMilliseconds)
@@ -108,4 +109,12 @@ class TokenProvider(
             bearerToken.substring(7)
         } else null
     }
+
+    fun getUserInfo(request: HttpServletRequest): UserInfo? {
+        val resolveToken: String = resolveToken(request)!!
+
+        val authentication = getAuthentication(resolveToken)
+        return null
+    }
+
 }
