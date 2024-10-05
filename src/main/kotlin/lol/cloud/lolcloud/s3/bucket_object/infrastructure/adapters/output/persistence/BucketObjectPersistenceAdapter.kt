@@ -22,6 +22,7 @@ class BucketObjectPersistenceAdapter(
         objectName: String,
         prefix: String
     ): BucketObject? {
+
         TODO("Not yet implemented")
     }
 
@@ -37,7 +38,9 @@ class BucketObjectPersistenceAdapter(
         key: String,
         objectType: ObjectType
     ): BucketObject? {
-        TODO("Not yet implemented")
+        return bucketObjectRepository.findBucketObjectByBucketAndPrefixAndObjectType(
+            bucketEntity, key, objectType
+        ) ?.let {BucketObjectEntityMapper.toBucketObject(it)}
     }
 
     override fun saveBucketObject(bucketObjectEntity: BucketObjectEntity): BucketObject {

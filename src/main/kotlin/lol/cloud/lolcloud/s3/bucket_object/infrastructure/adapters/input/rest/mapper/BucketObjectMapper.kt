@@ -13,7 +13,7 @@ class BucketObjectMapper {
                     prefix = it.prefix,
                     objectName = it.objectName,
                     objectType = it.objectType.name,
-                    id = it.parentId!!,
+                    id = it.parentId,
                     createDate = null,
                     modifyDate = null,
                     objectSize = null,

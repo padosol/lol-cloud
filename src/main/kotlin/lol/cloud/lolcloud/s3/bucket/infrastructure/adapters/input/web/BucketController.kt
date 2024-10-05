@@ -54,18 +54,20 @@ class BucketController(
         @PathVariable bucketName: String,
         @ModelAttribute(binding = false) bucketObjectSearch: BucketObjectRequest,
         request: HttpServletRequest
-    ) : ResponseEntity<BucketResponse>{
+    ) : ResponseEntity<List<BucketObjectResponse>>{
 
         val resolveToken = tokenProvider.resolveToken(request)!!
         val authentication = tokenProvider.getAuthentication(resolveToken)
 
-        val result: BucketResponse =
-            bucketService.getBucket(
-                bucketName,
-                authentication.name
-            )
+        val bucket: List<BucketObjectResponse> = findBucketUseCase.getBucket(bucketName, bucketObjectSearch)
 
-        return ResponseEntity(result, HttpStatus.OK)
+//        val result: BucketResponse =
+//            bucketService.getBucket(
+//                bucketName,
+//                authentication.name
+//            )
+
+        return ResponseEntity(bucket, HttpStatus.OK)
     }
 
     /**

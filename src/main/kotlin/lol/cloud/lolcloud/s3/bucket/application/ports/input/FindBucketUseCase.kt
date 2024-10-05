@@ -9,4 +9,5 @@ interface FindBucketUseCase {
     fun getBuckets(): List<BucketResponse>
     fun getBucket(bucketName: String, bucketObjectRequest: BucketObjectRequest): List<BucketObjectResponse>
     fun getBucket(bucketName: String, email: String): BucketResponse
+
 }
